@@ -10,7 +10,7 @@ import {
   useToast,
   createToastTheme,
   defaultToastTheme
-} from 'react-native-toast-message-reanimated';
+} from '@emekauja/react-native-toast-message';
 ```
 
 ## `ToastProvider`

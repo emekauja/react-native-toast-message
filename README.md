@@ -33,7 +33,7 @@ Then add this library to your project and make sure your app already follows the
 ```tsx
 import React from 'react';
 import { Button, View } from 'react-native';
-import { Toast, ToastProvider, useToast } from 'react-native-toast-message-reanimated';
+import { Toast, ToastProvider, useToast } from '@emekauja/react-native-toast-message';
 
 const DemoButton = () => {
   const toast = useToast();

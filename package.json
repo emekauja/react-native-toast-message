@@ -1,10 +1,23 @@
 {
-  "name": "react-native-toast-message",
+  "name": "@emekauja/react-native-toast-message",
   "version": "0.1.0",
   "description": "Reusable React Native toast library with Reanimated-powered stacking and custom layouts.",
+  "license": "MIT",
+  "author": "Emeka Uja",
   "main": "index.ts",
   "react-native": "index.ts",
   "types": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emekauja/react-native-toast-message.git"
+  },
+  "bugs": {
+    "url": "https://github.com/emekauja/react-native-toast-message/issues"
+  },
+  "homepage": "https://github.com/emekauja/react-native-toast-message#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "src",
     "index.ts",

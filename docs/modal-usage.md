@@ -9,7 +9,7 @@ The supported pattern is to mount another `ToastViewport` inside the modal subtr
 ```tsx
 import React from 'react';
 import { Button, Modal, View } from 'react-native';
-import { Toast, ToastProvider, ToastViewport } from 'react-native-toast-message-reanimated';
+import { Toast, ToastProvider, ToastViewport } from '@emekauja/react-native-toast-message';
 
 export default function Example() {
   return (
