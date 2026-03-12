@@ -111,3 +111,7 @@ Toast.show({
 ```
 
 Passing `leading: null` suppresses the default tone icon.
+
+If you want to change the default layout icons globally instead of per toast, use `ToastProvider.iconByTone`.
+
+If you want to remove the default leading tone icons entirely, use `showToneIcons={false}` on `ToastProvider`.

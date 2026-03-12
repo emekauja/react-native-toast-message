@@ -21,6 +21,10 @@ type ToastProviderProps = {
   layouts?: Record<string, ToastLayoutRenderer>;
   defaultLayout?: string;
   defaultOptions?: Partial<ToastOptions>;
+  iconByTone?: Partial<
+    Record<'default' | 'success' | 'error' | 'warning' | 'info' | 'x', React.ComponentType>
+  >;
+  showToneIcons?: boolean;
   maxVisible?: number;
   offsets?: Partial<Record<'top' | 'bottom', number>>;
   theme?: ToastThemeOverrides;
@@ -34,6 +38,8 @@ Behavior:
 - owns toast state for all hosts
 - renders the default host automatically unless `renderDefaultViewport={false}`
 - merges provider defaults before viewport defaults and per-toast overrides
+- `iconByTone.x` customizes the close icon separately from leading tone icons
+- `showToneIcons={false}` keeps the close button but removes the default leading tone icons
 
 ## `useToast()`
 
@@ -115,6 +121,7 @@ type ToastLayoutRenderProps = {
   totalVisible: number;
   theme: ToastTheme;
   tone: ToastToneTheme;
+  icons: ToastIcons;
 };
 ```
 

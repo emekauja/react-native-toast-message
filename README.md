@@ -83,6 +83,8 @@ Props:
 - `layouts`: register named custom layouts
 - `defaultLayout`: choose the fallback layout key
 - `defaultOptions`: default toast options merged before each toast
+- `iconByTone`: override the default layout icons for any tone and the close `x`
+- `showToneIcons`: hide or show the default layout tone icons globally
 - `maxVisible`: number of simultaneously visible toasts per host
 - `offsets`: top/bottom edge offsets
 - `theme`: toast theme overrides, including typography slots
@@ -216,6 +218,28 @@ Toast.show({
     subtitle: { color: '#d1d5db' }
   }
 });
+```
+
+You can also replace or suppress the default layout icons from the provider:
+
+```tsx
+import { CheckCircle, TriangleAlert, X } from 'lucide-react-native';
+
+<ToastProvider
+  iconByTone={{
+    success: CheckCircle,
+    error: CheckCircle,
+    warning: TriangleAlert,
+    info: CheckCircle,
+    x: X
+  }}
+/>
+```
+
+To hide the leading tone icons entirely while keeping the close button:
+
+```tsx
+<ToastProvider showToneIcons={false} />
 ```
 
 See [API docs](./docs/api.md), [custom layouts](./docs/custom-layouts.md), and [modal usage](./docs/modal-usage.md).
