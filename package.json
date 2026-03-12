@@ -1,6 +1,6 @@
 {
   "name": "@emekauja/react-native-toast-message",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reusable React Native toast library with Reanimated-powered stacking and custom layouts.",
   "license": "MIT",
   "author": "Emeka Uja",
