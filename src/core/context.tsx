@@ -1,6 +1,13 @@
 import { createContext, useContext } from 'react';
 
-import type { ToastApi, ToastLayouts, ToastOptions, ToastTheme, ToastViewportProps } from '../types';
+import type {
+  ToastApi,
+  ToastIcons,
+  ToastLayouts,
+  ToastOptions,
+  ToastTheme,
+  ToastViewportProps
+} from '../types';
 import type { ToastState } from './store';
 
 export type ToastEnvironment = ToastApi & {
@@ -8,6 +15,7 @@ export type ToastEnvironment = ToastApi & {
   layouts: ToastLayouts;
   defaultLayout: string;
   defaultOptions?: Partial<ToastOptions>;
+  icons: ToastIcons;
   maxVisible: number;
   offsets?: ToastViewportProps['offsets'];
   theme: ToastTheme;

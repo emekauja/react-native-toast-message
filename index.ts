@@ -6,6 +6,11 @@ export { createToastTheme, defaultToastTheme, colors, palette, spacing } from '.
 export type {
   ToastAction,
   ToastApi,
+  ToastIconByTone,
+  ToastIconComponent,
+  ToastIconKey,
+  ToastIconProps,
+  ToastIcons,
   ToastLayoutRenderProps,
   ToastLayoutRenderer,
   ToastLayouts,

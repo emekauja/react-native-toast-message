@@ -17,7 +17,7 @@ import {
   STACK_SCALE_STEP,
   SWIPE_DISMISS_THRESHOLD
 } from '../constants';
-import type { ResolvedToast, ToastLayoutRenderer, ToastTheme } from '../types';
+import type { ResolvedToast, ToastIcons, ToastLayoutRenderer, ToastTheme } from '../types';
 
 type ToastItemProps = {
   toast: ResolvedToast;
@@ -27,6 +27,7 @@ type ToastItemProps = {
   zIndex: number;
   offset: number;
   theme: ToastTheme;
+  icons: ToastIcons;
   dismiss: (id: string) => void;
 };
 
@@ -40,6 +41,7 @@ export const ToastItem = ({
   zIndex,
   offset,
   theme,
+  icons,
   dismiss
 }: ToastItemProps) => {
   const translateX = useSharedValue(0);
@@ -127,7 +129,8 @@ export const ToastItem = ({
         totalVisible,
         isVisible: true,
         theme,
-        tone: theme.colors.tones[toast.type]
+        tone: theme.colors.tones[toast.type],
+        icons
       })}
     </Animated.View>
   );

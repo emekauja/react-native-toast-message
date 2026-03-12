@@ -64,6 +64,7 @@ export const ToastViewport = ({
     return (
       <ToastItem
         dismiss={environment.hide}
+        icons={environment.icons}
         key={toast.id}
         offset={resolvedOffsets[toast.placement]}
         placementIndex={placementIndex}

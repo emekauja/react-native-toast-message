@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { StyleProp, TextStyle } from 'react-native';
 
 import type { ToastLayoutRenderProps, ToastTone } from '../types';
+import { colors } from '../theme';
 
 const TONE_SYMBOLS: Record<ToastTone, string> = {
   default: '•',
@@ -32,25 +33,48 @@ export const DefaultToastLayout = ({
   toast,
   dismiss,
   theme,
-  tone
+  tone,
+  icons
 }: ToastLayoutRenderProps) => {
+  const toneIconKey = toast.type;
+  const hasToneIconOverride = Object.prototype.hasOwnProperty.call(
+    icons.iconByTone,
+    toneIconKey
+  );
+  const ToneIcon = icons.iconByTone[toneIconKey];
+  const CloseIcon = icons.iconByTone.x;
+  const toneIconSize = Math.max(theme.spacing.leadingSize - 10, 14);
+  const closeIconSize =
+    typeof theme.typography.close.fontSize === 'number'
+      ? theme.typography.close.fontSize
+      : 18;
+
   const defaultLeading =
     toast.leading !== undefined ? (
       toast.leading
-    ) : toast.type === 'default' ? null : (
+    ) : toast.type === 'default' ||
+      !icons.showToneIcons ||
+      (hasToneIconOverride && ToneIcon === null) ? null : (
       <View
+        testID={`toast-leading-icon-${toast.id}`}
         style={[
           styles.leadingDefault,
           {
             width: theme.spacing.leadingSize,
             height: theme.spacing.leadingSize,
             borderRadius: theme.radius.icon,
-            backgroundColor: tone.iconBackground
+            backgroundColor: tone.iconBackground,
+            borderColor: tone.iconBorderColor,
+            borderWidth: 1
           }
         ]}>
-        <Text style={[styles.leadingLabel, { color: tone.iconForeground }]}>
-          {TONE_SYMBOLS[toast.type]}
-        </Text>
+        {ToneIcon ? (
+          <ToneIcon color={tone.iconForeground} size={toneIconSize} />
+        ) : (
+          <Text style={[styles.leadingLabel, { color: tone.iconForeground }]}>
+            {TONE_SYMBOLS[toast.type]}
+          </Text>
+        )}
       </View>
     );
 
@@ -78,17 +102,16 @@ export const DefaultToastLayout = ({
         toast.styles?.container
       ]}>
       <View style={[styles.content, toast.styles?.content]}>
-        {defaultLeading ? <View style={[styles.leading, toast.styles?.leading]}>{defaultLeading}</View> : null}
+        {defaultLeading ? (
+          <View style={[styles.leading, toast.styles?.leading]}>
+            {defaultLeading}
+          </View>
+        ) : null}
 
         <View style={[styles.textContent, toast.styles?.textContent]}>
           {renderTextNode(
             toast.title,
-            [
-              styles.title,
-              theme.typography.title,
-              { color: tone.title },
-              toast.styles?.title
-            ],
+            [styles.title, theme.typography.title, toast.styles?.title],
             `toast-title-${toast.id}`
           )}
 
@@ -130,15 +153,24 @@ export const DefaultToastLayout = ({
             accessibilityRole='button'
             onPress={dismiss}
             style={[styles.closeButton, toast.styles?.closeButton]}>
-            <Text
-              style={[
-                theme.typography.close,
-                styles.closeLabel,
-                { color: tone.close },
-                toast.styles?.closeLabel
-              ]}>
-              ×
-            </Text>
+            {CloseIcon ? (
+              <View
+                pointerEvents='none'
+                testID={`toast-close-icon-${toast.id}`}>
+                <CloseIcon color={tone.close} size={closeIconSize} />
+              </View>
+            ) : (
+              <Text
+                testID={`toast-close-icon-${toast.id}`}
+                style={[
+                  theme.typography.close,
+                  styles.closeLabel,
+                  { color: tone.close },
+                  toast.styles?.closeLabel
+                ]}>
+                ×
+              </Text>
+            )}
           </Pressable>
         </View>
       </View>
@@ -149,7 +181,7 @@ export const DefaultToastLayout = ({
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderLeftWidth: 4
+    borderLeftWidth: 6
   },
   content: {
     flexDirection: 'row',
@@ -169,7 +201,9 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   textContent: {
-    flex: 1
+    flex: 1,
+    borderRightWidth: 1,
+    borderRightColor: colors.palette.grey[100]
   },
   title: {
     marginBottom: 2
@@ -187,12 +221,12 @@ const styles = StyleSheet.create({
   trailing: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 12
+    marginLeft: 6
   },
   closeButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 8,
+    marginLeft: 6,
     minWidth: 28,
     minHeight: 28
   },

@@ -1,8 +1,21 @@
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 export type ToastTone = 'default' | 'success' | 'error' | 'warning' | 'info';
 export type ToastPlacement = 'top' | 'bottom';
+export type ToastIconKey = ToastTone | 'x';
+export type ToastIconProps = {
+  color?: string;
+  size?: number;
+};
+export type ToastIconComponent = ComponentType<ToastIconProps>;
+export type ToastIconByTone = Partial<
+  Record<ToastIconKey, ToastIconComponent | null>
+>;
+export type ToastIcons = {
+  showToneIcons: boolean;
+  iconByTone: ToastIconByTone;
+};
 
 export type ToastAction = {
   label: string;
@@ -29,6 +42,7 @@ export type ToastToneTheme = {
   background: string;
   border: string;
   iconBackground: string;
+  iconBorderColor: string;
   iconForeground: string;
   title: string;
   subtitle: string;
@@ -86,6 +100,7 @@ export type ToastLayoutRenderProps = {
   totalVisible: number;
   theme: ToastTheme;
   tone: ToastToneTheme;
+  icons: ToastIcons;
 };
 
 export type ToastLayoutRenderer = (props: ToastLayoutRenderProps) => ReactNode;
@@ -114,7 +129,10 @@ export type InternalToast = ToastOptions & {
   createdAt: number;
 };
 
-export type ResolvedToast = Omit<InternalToast, 'type' | 'placement' | 'duration' | 'autoHide'> & {
+export type ResolvedToast = Omit<
+  InternalToast,
+  'type' | 'placement' | 'duration' | 'autoHide'
+> & {
   type: ToastTone;
   placement: ToastPlacement;
   duration: number;
@@ -137,6 +155,8 @@ export type ToastProviderProps = {
   layouts?: ToastLayouts;
   defaultLayout?: string;
   defaultOptions?: Partial<ToastOptions>;
+  iconByTone?: ToastIconByTone;
+  showToneIcons?: boolean;
   maxVisible?: number;
   offsets?: Partial<Record<ToastPlacement, number>>;
   theme?: ToastThemeOverrides;

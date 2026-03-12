@@ -3,7 +3,10 @@ import { colors, spacing as baseSpacing } from './utils/theme';
 
 const createToneTheme = (
   tone: ToastTone,
-  values: Omit<ToastTheme['colors']['tones'][ToastTone], 'title' | 'subtitle' | 'action' | 'close'>
+  values: Omit<
+    ToastTheme['colors']['tones'][ToastTone],
+    'title' | 'subtitle' | 'action' | 'close'
+  >
 ) => ({
   ...values,
   title: tone === 'default' ? colors.palette.grey[900] : values.accent,
@@ -24,35 +27,40 @@ export const defaultToastTheme: ToastTheme = {
         accent: colors.palette.grey[900],
         background: colors.white,
         border: colors.palette.grey[200],
-        iconBackground: colors.palette.grey[100],
+        iconBackground: colors.palette.grey[50],
+        iconBorderColor: colors.palette.grey[75],
         iconForeground: colors.palette.grey[700]
       }),
       success: createToneTheme('success', {
         accent: colors.palette.success[600],
-        background: colors.palette.success[50],
-        border: colors.palette.success[75],
-        iconBackground: colors.palette.success[75],
+        background: colors.white,
+        border: colors.palette.grey[200],
+        iconBackground: colors.palette.success[50],
+        iconBorderColor: colors.palette.success[75],
         iconForeground: colors.palette.success[700]
       }),
       error: createToneTheme('error', {
         accent: colors.palette.red[500],
-        background: colors.palette.red[50],
-        border: colors.palette.red[75],
-        iconBackground: colors.palette.red[75],
+        background: colors.white,
+        border: colors.palette.grey[200],
+        iconBackground: colors.palette.red[50],
+        iconBorderColor: colors.palette.red[75],
         iconForeground: colors.palette.red[700]
       }),
       warning: createToneTheme('warning', {
         accent: colors.palette.warning[500],
-        background: colors.palette.warning[50],
-        border: colors.palette.warning[75],
-        iconBackground: colors.palette.warning[75],
+        background: colors.white,
+        border: colors.palette.grey[200],
+        iconBackground: colors.palette.warning[50],
+        iconBorderColor: colors.palette.warning[75],
         iconForeground: colors.palette.warning[700]
       }),
       info: createToneTheme('info', {
         accent: colors.palette.blue[500],
-        background: colors.palette.blue[50],
-        border: colors.palette.blue[75],
-        iconBackground: colors.palette.blue[75],
+        background: colors.white,
+        border: colors.palette.grey[200],
+        iconBackground: colors.palette.blue[50],
+        iconBorderColor: colors.palette.blue[75],
         iconForeground: colors.palette.blue[700]
       })
     }
@@ -68,7 +76,7 @@ export const defaultToastTheme: ToastTheme = {
     actionGap: baseSpacing[2]
   },
   radius: {
-    card: 16,
+    card: 4,
     icon: 10,
     pill: 999
   },
@@ -103,20 +111,25 @@ export const defaultToastTheme: ToastTheme = {
   }
 };
 
-export const createToastTheme = (overrides?: ToastThemeOverrides): ToastTheme => {
+export const createToastTheme = (
+  overrides?: ToastThemeOverrides
+): ToastTheme => {
   if (!overrides) {
     return defaultToastTheme;
   }
 
   const mergedTones = Object.entries(defaultToastTheme.colors.tones).reduce<
     ToastTheme['colors']['tones']
-  >((acc, [tone, toneTheme]) => {
-    acc[tone as ToastTone] = {
-      ...toneTheme,
-      ...overrides.colors?.tones?.[tone as ToastTone]
-    };
-    return acc;
-  }, {} as ToastTheme['colors']['tones']);
+  >(
+    (acc, [tone, toneTheme]) => {
+      acc[tone as ToastTone] = {
+        ...toneTheme,
+        ...overrides.colors?.tones?.[tone as ToastTone]
+      };
+      return acc;
+    },
+    {} as ToastTheme['colors']['tones']
+  );
 
   return {
     ...defaultToastTheme,

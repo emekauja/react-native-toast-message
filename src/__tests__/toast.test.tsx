@@ -215,6 +215,49 @@ describe('toast library', () => {
     expect(screen.getByText('Styled toast')).toHaveStyle({ color: 'navy' });
   });
 
+  it('uses provider-level icon overrides for tone and close icons', () => {
+    const SuccessIcon = () => <Text>success icon</Text>;
+    const CloseIcon = () => <Text>close icon</Text>;
+
+    render(
+      <ToastProvider
+        iconByTone={{
+          success: SuccessIcon,
+          x: CloseIcon
+        }}
+      />
+    );
+
+    act(() => {
+      Toast.show({
+        title: 'Icon override toast',
+        type: 'success',
+        autoHide: false
+      });
+    });
+
+    expect(screen.getByText('success icon')).toBeOnTheScreen();
+    expect(screen.getByText('close icon')).toBeOnTheScreen();
+    expect(screen.queryByText('✓')).toBeNull();
+  });
+
+  it('suppresses provider tone icons when showToneIcons=false', () => {
+    render(<ToastProvider showToneIcons={false} />);
+
+    let toastId = '';
+
+    act(() => {
+      toastId = Toast.show({
+        title: 'No tone icon',
+        type: 'success',
+        autoHide: false
+      });
+    });
+
+    expect(screen.queryByTestId(`toast-leading-icon-${toastId}`)).toBeNull();
+    expect(screen.getByTestId(`toast-close-icon-${toastId}`)).toBeOnTheScreen();
+  });
+
   it('falls back to the platform default font when no typography fontFamily override is supplied', () => {
     render(<ToastProvider />);
 

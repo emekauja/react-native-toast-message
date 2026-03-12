@@ -18,6 +18,8 @@ export const ToastProvider = ({
   layouts,
   defaultLayout = DEFAULT_LAYOUT,
   defaultOptions,
+  iconByTone,
+  showToneIcons = true,
   maxVisible = DEFAULT_MAX_VISIBLE,
   offsets,
   theme,
@@ -66,11 +68,15 @@ export const ToastProvider = ({
       layouts: layouts ?? {},
       defaultLayout,
       defaultOptions,
+      icons: {
+        showToneIcons,
+        iconByTone: iconByTone ?? {}
+      },
       maxVisible,
       offsets,
       theme: createToastTheme(theme)
     }),
-    [api, defaultLayout, defaultOptions, layouts, maxVisible, offsets, state, theme]
+    [api, defaultLayout, defaultOptions, iconByTone, layouts, maxVisible, offsets, showToneIcons, state, theme]
   );
 
   return (
