@@ -1,6 +1,7 @@
 module.exports = {
   preset: "react-native",
   testEnvironment: "node",
+  watchman: false,
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
   setupFilesAfterEnv: [

@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  type GestureStateChangeEvent,
+  type GestureUpdateEvent,
+  type PanGestureHandlerEventPayload
+} from 'react-native-gesture-handler';
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -32,6 +38,8 @@ type ToastItemProps = {
 };
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+type SwipeUpdateEvent = GestureUpdateEvent<PanGestureHandlerEventPayload>;
+type SwipeEndEvent = GestureStateChangeEvent<PanGestureHandlerEventPayload>;
 
 export const ToastItem = ({
   toast,
@@ -66,16 +74,16 @@ export const ToastItem = ({
     .onBegin(() => {
       isSwiping.value = true;
     })
-    .onUpdate((event) => {
+    .onUpdate((event: SwipeUpdateEvent) => {
       if (event.translationX > 0) {
         return;
       }
 
       translateX.value = event.translationX;
     })
-    .onEnd((event) => {
+    .onEnd((event: SwipeEndEvent) => {
       if (event.translationX < -SWIPE_DISMISS_THRESHOLD) {
-        translateX.value = withTiming(-SCREEN_WIDTH, { duration: 180 }, (finished) => {
+        translateX.value = withTiming(-SCREEN_WIDTH, { duration: 180 }, (finished?: boolean) => {
           if (finished) {
             runOnJS(handleDismiss)();
           }
