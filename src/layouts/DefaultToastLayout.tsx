@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
   textContent: {
     flex: 1,
     borderRightWidth: 1,
-    borderRightColor: colors.palette.grey[100]
+    borderRightColor: colors.palette.grey[100],
+    marginRight: 4
   },
   title: {
     marginBottom: 2
